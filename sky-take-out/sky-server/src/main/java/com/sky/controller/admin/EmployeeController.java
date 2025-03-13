@@ -3,18 +3,19 @@ package com.sky.controller.admin;
 import com.sky.constant.JwtClaimsConstant;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
+import com.sky.dto.EmployeePageQueryDTO;
 import com.sky.entity.Employee;
 import com.sky.properties.JwtProperties;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.EmployeeService;
 import com.sky.utils.JwtUtil;
 import com.sky.vo.EmployeeLoginVO;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,11 +74,31 @@ public class EmployeeController {
     }
 
     @PostMapping
+    @ApiOperation("新增员工")
     public Result insert(@RequestBody EmployeeDTO employeeDTO) {
         log.info("插入员工：{}", employeeDTO);
         System.out.println("当前线程的id:"+Thread.currentThread().getId());
 
         employeeService.insert(employeeDTO);
         return Result.success();
+    }
+
+    /*@GetMapping("page")
+    @ApiOperation("员工分页查询")
+    public Result page(String name,
+            @RequestParam(defaultValue = "1")Integer page,
+                       @RequestParam(defaultValue = "10")Integer pageSize) {
+        log.info("分页查询，参数：{},{},{}", name, page, pageSize);
+        PageResult pageResult=employeeService.page(name,page,pageSize);
+
+        return Result.success(pageResult);
+
+    }*/
+    @GetMapping("/page")
+    @ApiOperation("员工分页查询")
+    public Result<PageResult> page(EmployeePageQueryDTO employeePageQueryDTO){
+        log.info("员工分页查询，参数为：{}",employeePageQueryDTO);
+        PageResult pageResult = employeeService.PageQuery(employeePageQueryDTO);
+        return Result.success(pageResult);
     }
 }
