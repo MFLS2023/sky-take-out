@@ -21,4 +21,8 @@ public interface EmployeeService {
     /*PageResult page(String name, Integer page, Integer pageSize);*/
 
     PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    void updateStatus(Integer status, long id);
+
+    Employee getById(long id);
 }

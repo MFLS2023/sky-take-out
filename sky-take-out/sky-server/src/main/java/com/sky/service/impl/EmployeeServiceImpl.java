@@ -94,16 +94,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new PageResult(p.getTotal(),p.getResult());
     }*/
 
-@Override
-public PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO) { //DTO已将页码和每页记录数传入，因此可以算出
-    // select * from employee limit 0,10，通过Limit来控制
-    PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize()); //页码和每页记录数传入
-    //Page是固定的，Employee是每个用户的信息
-    Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);//
-    //要将page对象处理为PageResult对象
-    long total = page.getTotal();
-    List<Employee> result = page.getResult();
-    return new PageResult(total,result);
-}
+    @Override
+    public PageResult PageQuery(EmployeePageQueryDTO employeePageQueryDTO) { //DTO已将页码和每页记录数传入，因此可以算出
+        // select * from employee limit 0,10，通过Limit来控制
+        PageHelper.startPage(employeePageQueryDTO.getPage(),employeePageQueryDTO.getPageSize()); //页码和每页记录数传入
+        //Page是固定的，Employee是每个用户的信息
+        Page<Employee> page = employeeMapper.pageQuery(employeePageQueryDTO);//
+        //要将page对象处理为PageResult对象
+        long total = page.getTotal();
+        List<Employee> result = page.getResult();
+        return new PageResult(total,result);
+    }
+
+    //修改员工状态
+    @Override
+    public void updateStatus(Integer status, long id){
+        Employee employee=employeeMapper.getById(id);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.updateStatus(status,id);
+    }
+
+    //根据id查找员工
+    @Override
+    public Employee getById(long id){
+        Employee employee = employeeMapper.getById(id);
+        return employee;
+    }
 
 }
