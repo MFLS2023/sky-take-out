@@ -141,8 +141,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     //修改密码
     @Override
     public void updatePassword(PasswordEditDTO passwordEditDTO){
-        Long id=passwordEditDTO.getEmpId();
-        Employee employee=employeeMapper.getById(id);
+//        Employee employee = employeeMapper.getById(BaseContext.getCurrentId());
+
+        Long id= passwordEditDTO.getEmpId();
+        Employee employee= employeeMapper.getById(id);
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(BaseContext.getCurrentId());
 
@@ -155,6 +157,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         }else{
             throw new PasswordEditFailedException(MessageConstant.PASSWORD_EDIT_FAILED);
         }
+
+/*        String password = passwordEditDTO.getOldPassword();
+        //把旧密码进行md5加密，再进行对比
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        Employee employee = employeeMapper.getById(BaseContext.getCurrentId());
+        if(!password.equals(employee.getPassword())){
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }else{
+            employee.setPassword(DigestUtils.md5DigestAsHex(passwordEditDTO.getNewPassword().getBytes()));
+            employeeMapper.update(employee);
+        }*/
 
     }
 

@@ -108,7 +108,7 @@ public class EmployeeController {
     @PostMapping("/status/{status}")
     @ApiOperation("员工账号状态修改")
     public Result updateStatus(@PathVariable Integer status,long id) {
-        log.info("员工账号状态修改：{},{}",status,id);
+        log.info("员工账号状态修改，员工ID：{},员工账号状态：{}",status,id);
         employeeService.updateStatus(status,id);
         return Result.success();
     }
@@ -119,8 +119,8 @@ public class EmployeeController {
     @ApiOperation("根据id查找员工")
     public Result<Employee> getById(@PathVariable("id") long id) {
         log.info("根据ID：{} 查找员工信息", id);
-        Employee data =employeeService.getById(id);
-        return Result.success(data);
+        Employee employee =employeeService.getById(id);
+        return Result.success(employee);
     }
 
     @PutMapping
@@ -136,6 +136,10 @@ public class EmployeeController {
     @ApiOperation("修改密码")
     public Result updatePassword(@RequestBody PasswordEditDTO passwordEditDTO) {
         log.info("修改密码；{}",passwordEditDTO);
+        //原来还有个情况就是：新旧密码一样，直接抛出异常
+        if(passwordEditDTO.getOldPassword() .equals(passwordEditDTO.getNewPassword())){
+            return Result.error("新旧密码相同");
+        }
         employeeService.updatePassword(passwordEditDTO);
         return Result.success();
     }
