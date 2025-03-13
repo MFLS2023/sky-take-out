@@ -25,4 +25,6 @@ public interface EmployeeService {
     void updateStatus(Integer status, long id);
 
     Employee getById(long id);
+
+    void update(Employee employee);
 }

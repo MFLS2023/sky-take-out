@@ -122,4 +122,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    @Override
+    public void update(Employee employee){
+
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
+    }
+
+
 }

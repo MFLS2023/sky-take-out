@@ -34,6 +34,9 @@ public interface EmployeeMapper {
     @Update("update employee set status=#{status} where id=#{id}")
     void updateStatus(Integer status,long id);
 
+    //编辑员工信息
+    void update(Employee employee);
+
     //根据id查询员工
     @Select("select * from employee where id=#{id} ")
     Employee getById(long id);
