@@ -9,9 +9,11 @@ import com.sky.context.BaseContext;
 import com.sky.dto.EmployeeDTO;
 import com.sky.dto.EmployeeLoginDTO;
 import com.sky.dto.EmployeePageQueryDTO;
+import com.sky.dto.PasswordEditDTO;
 import com.sky.entity.Employee;
 import com.sky.exception.AccountLockedException;
 import com.sky.exception.AccountNotFoundException;
+import com.sky.exception.PasswordEditFailedException;
 import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
@@ -109,10 +111,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     //修改员工状态
     @Override
     public void updateStatus(Integer status, long id){
-        Employee employee=employeeMapper.getById(id);
+/*        Employee employee=employeeMapper.getById(id);
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(BaseContext.getCurrentId());
-        employeeMapper.updateStatus(status,id);
+        employeeMapper.updateStatus(status,id);*/
+
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
     }
 
     //根据id查找员工
@@ -122,12 +130,32 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    //修改员工信息
     @Override
     public void update(Employee employee){
-
         employee.setUpdateTime(LocalDateTime.now());
         employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
+    }
+
+    //修改密码
+    @Override
+    public void updatePassword(PasswordEditDTO passwordEditDTO){
+        Long id=passwordEditDTO.getEmpId();
+        Employee employee=employeeMapper.getById(id);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        boolean password_Answer=passwordEditDTO.getOldPassword().equals(employee.getPassword());
+        if(!password_Answer){
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }else if(password_Answer){
+            employee.setPassword(passwordEditDTO.getNewPassword());
+            employeeMapper.update(employee);
+        }else{
+            throw new PasswordEditFailedException(MessageConstant.PASSWORD_EDIT_FAILED);
+        }
+
     }
 
 
