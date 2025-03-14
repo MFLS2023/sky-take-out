@@ -4,15 +4,16 @@
 <mapper namespace="com.sky.mapper.EmployeeMapper">
 
     <!--自己写的分页查询-->
-    <select id="list" resultType="com.sky.dto.EmployeeDTO">
+<!--    <select id="list" resultType="com.sky.dto.EmployeeDTO">
         select * from employee
         <where>
             <if test="name!=null and name!=''">
                 name like concat('%',#{name},'%')
             </if>
         </where>
-        <!-- 标准的分页查询-->
-    </select>
+
+    </select>-->
+    <!-- 标准的分页查询-->
         <select id="pageQuery" resultType="com.sky.entity.Employee">
             select * from employee
             <where>
