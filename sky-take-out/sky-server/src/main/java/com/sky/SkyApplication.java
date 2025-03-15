@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication
-@EnableTransactionManagement //开启注解方式的事务管理
+@EnableTransactionManagement //开启注解方式的事务管理（设计多表）
 @Slf4j
 @EnableCaching//开发缓存注解功能
 @EnableScheduling //开启任务调度
