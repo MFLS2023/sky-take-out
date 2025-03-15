@@ -34,10 +34,10 @@ public class CategoryServiceImpl implements CategoryService {
         //分类状态默认为0
         category.setStatus(StatusConstant.DISABLE);
         //设置创建时间，修改时间，创建人和修改人
-        category.setCreateTime(LocalDateTime.now());
+/*        category.setCreateTime(LocalDateTime.now());
         category.setUpdateTime(LocalDateTime.now());
         category.setCreateUser(BaseContext.getCurrentId());
-        category.setUpdateUser(BaseContext.getCurrentId());
+        category.setUpdateUser(BaseContext.getCurrentId());*/
         categoryMapper.add(category);
     }
 
@@ -62,19 +62,21 @@ public class CategoryServiceImpl implements CategoryService {
     public void changeCategory(CategoryDTO categoryDTO){
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
+/*        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());*/
         categoryMapper.changeCategory(category);
     }
 
     //启用、禁用菜品状态
     @Override
     public void changeStatus(Integer status,long id){
-        Category category = new Category();
-        BeanUtils.copyProperties(status,category);
-        category.setUpdateTime(LocalDateTime.now());
-        category.setUpdateUser(BaseContext.getCurrentId());
-        categoryMapper.changeStatus(status,id);
+        Category category = Category.builder()
+                .id(id)
+                .status(status)
+                //.updateTime(LocalDateTime.now())
+                //.updateUser(BaseContext.getCurrentId())
+                .build();
+        categoryMapper.changeStatus(category);
     }
 
     //删除菜品

@@ -78,11 +78,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         //默认密码123456
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-        employee.setCreateTime(LocalDateTime.now());
+/*        employee.setCreateTime(LocalDateTime.now());
         employee.setUpdateTime(LocalDateTime.now());
         //修改“操作人”
         employee.setCreateUser(BaseContext.getCurrentId());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
         employeeMapper.insert(employee);
     }
 
@@ -133,8 +133,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     //修改员工信息
     @Override
     public void update(Employee employee){
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+/*        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
         employeeMapper.update(employee);
     }
 
@@ -145,8 +145,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Long id= passwordEditDTO.getEmpId();
         Employee employee= employeeMapper.getById(id);
-        employee.setUpdateTime(LocalDateTime.now());
-        employee.setUpdateUser(BaseContext.getCurrentId());
+/*        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());*/
 
         boolean password_Answer=passwordEditDTO.getOldPassword().equals(employee.getPassword());
         if(!password_Answer){

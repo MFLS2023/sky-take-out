@@ -60,8 +60,8 @@ public class CategoryController {
 
     @PostMapping("/status/{status}")
     @ApiOperation("启用、禁用分类")
-    public Result changeStatus(@PathVariable("status") Integer status,long id) {
-        log.info("修改菜品id为{} 的启用状态{}", id,status);
+    public Result<String> changeStatus(@PathVariable("status") Integer status, Long id) {
+        log.info("修改菜品id为{} 的启用状态{}", status,id);
         categoryService.changeStatus(status,id);
         return Result.success();
     }
@@ -69,7 +69,7 @@ public class CategoryController {
     //根据id删除分类
     @DeleteMapping
     @ApiOperation("根据id删除分类")
-    public Result delete(Long id) {
+    public Result<String> delete(Long id) {
         log.info("删除id为{}的菜品",id);
         categoryService.delete(id);
         return Result.success();
