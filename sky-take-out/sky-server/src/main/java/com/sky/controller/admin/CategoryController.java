@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @Slf4j
 @RequestMapping("/admin/category")
@@ -21,11 +23,11 @@ public class CategoryController {
     private CategoryService categoryService;
 
 
-    @PutMapping
+/*    @PutMapping
     public Result update(Category category) {
 
         return Result.success();
-    }
+    }*/
 
     @PostMapping
     @ApiOperation("新增菜品")
@@ -48,4 +50,37 @@ public class CategoryController {
         }
     }
 
+    @PutMapping
+    @ApiOperation("修改分类")
+    public Result changCategory (@RequestBody CategoryDTO categoryDTO) {
+        log.info("修改菜品的分类{}", categoryDTO);
+        categoryService.changeCategory(categoryDTO);
+        return Result.success();
+    }
+
+    @PostMapping("/status/{status}")
+    @ApiOperation("启用、禁用分类")
+    public Result changeStatus(@PathVariable("status") Integer status,long id) {
+        log.info("修改菜品id为{} 的启用状态{}", id,status);
+        categoryService.changeStatus(status,id);
+        return Result.success();
+    }
+
+    //根据id删除分类
+    @DeleteMapping
+    @ApiOperation("根据id删除分类")
+    public Result delete(Long id) {
+        log.info("删除id为{}的菜品",id);
+        categoryService.delete(id);
+        return Result.success();
+    }
+
+    //根据类型查询分类
+    @GetMapping("/list")
+    @ApiOperation("根据类型查询分类")
+    public Result<List<Category>> list(Integer type) {
+        log.info("查询类型为：{}的所有菜品",type);
+        List<Category>result=categoryService.list(type);
+        return Result.success(result);
+    }
 }

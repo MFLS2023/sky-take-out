@@ -10,6 +10,7 @@ import com.sky.entity.Category;
 import com.sky.mapper.CategoryMapper;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
+import com.sky.result.Result;
 import com.sky.service.CategoryService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,9 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryMapper categoryMapper;
 
 
+    //插入菜品
     @Override
     public void add(CategoryDTO categoryDTO){
-
         Category category = new Category();
         BeanUtils.copyProperties(categoryDTO,category);
         //分类状态默认为0
@@ -40,6 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryMapper.add(category);
     }
 
+    //分页查询
     @Override
     public PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO){
         PageHelper.startPage(categoryPageQueryDTO.getPage(),categoryPageQueryDTO.getPageSize());
@@ -54,5 +56,39 @@ public class CategoryServiceImpl implements CategoryService {
         pageResult.setRecords(list);
         return pageResult;
     }
+
+    //修改分类
+    @Override
+    public void changeCategory(CategoryDTO categoryDTO){
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO,category);
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());
+        categoryMapper.changeCategory(category);
+    }
+
+    //启用、禁用菜品状态
+    @Override
+    public void changeStatus(Integer status,long id){
+        Category category = new Category();
+        BeanUtils.copyProperties(status,category);
+        category.setUpdateTime(LocalDateTime.now());
+        category.setUpdateUser(BaseContext.getCurrentId());
+        categoryMapper.changeStatus(status,id);
+    }
+
+    //删除菜品
+    @Override
+    public void delete(Long id){
+        categoryMapper.delete(id);
+    }
+
+    //根据类型查询分类
+    @Override
+    public List<Category> list(Integer type){
+        List<Category> result= categoryMapper.list(type);
+        return result;
+    }
+
 
 }
