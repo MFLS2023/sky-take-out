@@ -1,5 +1,7 @@
 package com.sky.service;
 
+import com.sky.dto.SetmealDTO;
+import com.sky.result.Result;
 import com.sky.vo.SetmealVO;
 
 import java.util.List;
@@ -19,5 +21,9 @@ public interface SetmealService {
      * @param id
      * @return
      */
+    //根据id查找套餐
     SetmealVO getByIdWithDish(Long id);
+
+    //添加套餐
+    void add(SetmealDTO setmealDTO);
 }

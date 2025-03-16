@@ -2,14 +2,19 @@ package com.sky.service.impl;
 
 import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
+import com.sky.dto.SetmealDTO;
 import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
+import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishFlavorMapper;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
+import com.sky.service.SetmealService;
 import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +23,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class SetmealServiceImpl {
+public class SetmealServiceImpl implements SetmealService {
 
     @Autowired
     private SetmealMapper setmealMapper;
@@ -61,14 +66,38 @@ public class SetmealServiceImpl {
         }
     }
 
+
+    //添加套餐
+    @Transactional
+    public void add(SetmealDTO setmealDTO){
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+
+        //向套餐表插入数据
+        setmealMapper.add(setmeal);
+
+        //获取生成的套餐id
+        Long id=setmeal.getId();
+
+        List<SetmealDish> dish= setmealDTO.getSetmealDishes();
+
+        dish.forEach(dishDish->{
+            dishDish.setSetmealId(id);
+        });
+
+        //保存套餐和菜品的关联关系
+        setmealDishMapper.insertBatch(dish);
+
+    }
+
 /*    *//**
      * 根据id查询套餐和套餐菜品关系
      *
      * @param id
      * @return
      */
-/*    public SetmealVO getByIdWithDish(Long id) {
+    public SetmealVO getByIdWithDish(Long id) {
         SetmealVO setmealVO = setmealMapper.getByIdWithDish(id);
         return setmealVO;
-    }*/
+    }
 }

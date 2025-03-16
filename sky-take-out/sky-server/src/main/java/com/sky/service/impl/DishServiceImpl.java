@@ -138,9 +138,25 @@ public class DishServiceImpl implements DishService {
     }
 
 
+    //根据id来修改菜品的起售状态
     public void updateStatus(Integer status, long id){
         Dish dish = dishMapper.getById(id);
         dish.setStatus(status);
         dishMapper.update(dish);
     }
+
+    /**
+     * 根据分类id查询菜品
+     * @param categoryId
+     * @return
+     */
+    //根据分类id查询菜品
+    public List<Dish> list(Long categoryId) {
+        Dish dish = Dish.builder()
+                .categoryId(categoryId)
+                .status(StatusConstant.ENABLE)
+                .build();
+        return dishMapper.list(dish);
+    }
+
 }
