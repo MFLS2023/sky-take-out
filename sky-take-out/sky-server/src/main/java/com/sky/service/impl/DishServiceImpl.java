@@ -74,9 +74,13 @@ public class DishServiceImpl implements DishService {
         return pageResult;
     }
 
-    //修改菜品
-    @Override
-    public void update(DishDTO dishDTO) {
+    public void updateWithFlavor(DishDTO dishDTO) {
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO, dish);
+
+        //修改菜品表基本信息
+        dishMapper.update(dish);
+
         //删除原有的口味数据
         dishFlavorMapper.deleteByDishId(dishDTO.getId());
 

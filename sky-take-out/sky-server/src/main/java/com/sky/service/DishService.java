@@ -15,12 +15,12 @@ public interface DishService {
     //分页查询
     PageResult page(DishPageQueryDTO dishPageQueryDTO);
 
-    //更新菜品
-    void update(DishDTO dishDTO);
-
     //根据ID批量删除菜品
     void deleteBatch(List<Long> ids);
 
     //根据ID查找菜品和对应口味
     DishVO getByIdWithFlavor(Long id);
+
+    //根据id修改菜品基本信息和对应的口味信息
+    void updateWithFlavor(DishDTO dishDTO);
 }

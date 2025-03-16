@@ -44,12 +44,16 @@ public class DishController {
 
     @PutMapping
     @ApiOperation("修改菜品")
-    public Result<String> update(@RequestBody DishDTO dishDTO){
-        log.info("修改菜品{}",dishDTO);
+    public Result update(@RequestBody DishDTO dishDTO) {
+        log.info("修改菜品：{}", dishDTO);
+        dishService.updateWithFlavor(dishDTO);
+
         //将所有的菜品缓存数据清理掉，所有以dish_开头的key
-//        cleanCache("dish_*");
+/*        cleanCache("dish_*");*/
+
         return Result.success();
     }
+
 
     //删除菜品
     @DeleteMapping
