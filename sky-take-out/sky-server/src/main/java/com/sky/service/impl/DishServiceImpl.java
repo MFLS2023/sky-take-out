@@ -35,12 +35,13 @@ public class DishServiceImpl implements DishService {
     private SetmealDishMapper setmealDishMapper;
 
 
-    //新增菜品对应的口味
+
     /**
      * 新增菜品和对应的口味
      *
      * @param dishDTO
      */
+    //新增菜品和对应的口味
     @Transactional
     public void saveWithFlavor(DishDTO dishDTO) {
 
@@ -116,4 +117,21 @@ public class DishServiceImpl implements DishService {
             dishFlavorMapper.deleteByDishId(id);
         }
     }
+
+    //根据id查询菜品和对应的口味数据
+    public DishVO getByIdWithFlavor(Long id) {
+        //根据id查询菜品数据
+        Dish dish = dishMapper.getById(id);
+
+        //根据菜品id查询口味数据
+        List<DishFlavor> dishFlavors = dishFlavorMapper.getByDishId(id);
+
+        //将查询到的数据封装到VO
+        DishVO dishVO = new DishVO();
+        BeanUtils.copyProperties(dish, dishVO);
+        dishVO.setFlavors(dishFlavors);
+
+        return dishVO;
+    }
+
 }
