@@ -31,4 +31,7 @@ public interface SetmealService {
 
     PageResult page(SetmealPageQueryDTO queryDTO);
 
+    //批量删除套餐
+    void deleteByIds(List<Long> ids);
+
 }
