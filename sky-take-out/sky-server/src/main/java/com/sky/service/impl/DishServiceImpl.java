@@ -35,7 +35,6 @@ public class DishServiceImpl implements DishService {
     private SetmealDishMapper setmealDishMapper;
 
 
-
     /**
      * 新增菜品和对应的口味
      *
@@ -138,4 +137,10 @@ public class DishServiceImpl implements DishService {
         return dishVO;
     }
 
+
+    public void updateStatus(Integer status, long id){
+        Dish dish = dishMapper.getById(id);
+        dish.setStatus(status);
+        dishMapper.update(dish);
+    }
 }

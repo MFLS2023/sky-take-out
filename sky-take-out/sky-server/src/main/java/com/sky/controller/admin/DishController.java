@@ -76,6 +76,14 @@ public class DishController {
         return Result.success(dishVO);
     }
 
+    @PostMapping("/status/{status}")
+    @ApiOperation("菜品起售、停售")
+    public Result updateStatus(@PathVariable Integer status, long id) {
+        log.info("修改id为：{}的菜品起售状态：{}", id, status);
+        dishService.updateStatus(status,id);
+        return Result.success();
+    }
+
     //清理缓存数据
 /*    private void cleanCache(String pattern){
         Set keys = redisTemplate.keys(pattern);

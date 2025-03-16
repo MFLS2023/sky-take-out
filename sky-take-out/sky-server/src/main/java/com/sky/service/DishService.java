@@ -23,4 +23,9 @@ public interface DishService {
 
     //根据id修改菜品基本信息和对应的口味信息
     void updateWithFlavor(DishDTO dishDTO);
+
+    //修改菜品的起售、停售状态
+    void updateStatus(Integer status, long id);
+
+
 }
