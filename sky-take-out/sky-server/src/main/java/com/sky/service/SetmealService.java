@@ -41,4 +41,6 @@ public interface SetmealService {
     //批量删除套餐
     void deleteByIds(List<Long> ids);
 
+    //修改套餐起售状态
+    void updateStatus(Long id, Integer status);
 }

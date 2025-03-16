@@ -163,4 +163,12 @@ public class SetmealServiceImpl implements SetmealService {
             setmealDishMapper.deleteBySetmealId(setmealId);
         });
     }
+
+    //修改套装的起售状态
+    public void updateStatus(Long id, Integer status){
+        Setmeal setmeal = setmealMapper.getById(id);
+        setmeal.setStatus(status);
+        setmealMapper.update(setmeal);
+
+    }
 }
