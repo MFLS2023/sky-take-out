@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 import static com.sun.xml.internal.bind.v2.ClassFactory.cleanCache;
@@ -37,7 +38,6 @@ public class DishController {
     public Result<PageResult> page( DishPageQueryDTO dishPageQueryDTO){
         log.info("菜品分页查询：{}",dishPageQueryDTO);
         PageResult pageResult =dishService.page(dishPageQueryDTO);
-
         return Result.success(pageResult);
     }
 
@@ -46,13 +46,25 @@ public class DishController {
     public Result<String> update(@RequestBody DishDTO dishDTO){
         log.info("修改菜品{}",dishDTO);
         //将所有的菜品缓存数据清理掉，所有以dish_开头的key
-        cleanCache("dish_*");
+//        cleanCache("dish_*");
+        return Result.success();
+    }
+
+    //删除菜品
+    @DeleteMapping
+    @ApiOperation("菜品批量删除")
+    public Result delete(@RequestParam List<Long> ids) {
+        log.info("菜品批量删除：{}", ids);
+        dishService.deleteBatch(ids);
+
+        //将所有的菜品缓存数据清理掉，所有以dish_开头的key
+//        cleanCache("dish_*");
         return Result.success();
     }
 
     //清理缓存数据
-    private void cleanCache(String pattern){
+/*    private void cleanCache(String pattern){
         Set keys = redisTemplate.keys(pattern);
         redisTemplate.delete(keys);
-    }
+    }*/
 }

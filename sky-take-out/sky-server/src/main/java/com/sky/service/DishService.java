@@ -4,11 +4,19 @@ import com.sky.dto.DishDTO;
 import com.sky.dto.DishPageQueryDTO;
 import com.sky.result.PageResult;
 
+import java.util.List;
+import java.util.Set;
+
 public interface DishService {
     //新增菜品和对应的口味
     public void saveWithFlavor(DishDTO dishDTO);
 
+    //分页查询
     PageResult page(DishPageQueryDTO dishPageQueryDTO);
 
+    //更新菜品
     void update(DishDTO dishDTO);
+
+    //根据ID批量删除菜品
+    void deleteBatch(List<Long> ids);
 }

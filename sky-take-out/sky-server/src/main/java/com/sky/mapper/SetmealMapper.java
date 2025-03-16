@@ -1,5 +1,7 @@
 package com.sky.mapper;
 
-public class SetmealMapper {
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
+public interface SetmealMapper {
 }
