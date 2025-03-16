@@ -23,12 +23,19 @@ public interface SetmealService {
      * @param id
      * @return
      */
-    //根据id查找套餐
+    //根据id查找套餐和关联的菜品数据
     SetmealVO getByIdWithDish(Long id);
+
+    /**
+     * 修改套餐
+     * @param setmealDTO
+     */
+    void update(SetmealDTO setmealDTO);
 
     //添加套餐
     void add(SetmealDTO setmealDTO);
 
+    //分页查询
     PageResult page(SetmealPageQueryDTO queryDTO);
 
     //批量删除套餐

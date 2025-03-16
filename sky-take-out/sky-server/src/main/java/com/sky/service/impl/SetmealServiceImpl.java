@@ -54,14 +54,12 @@ public class SetmealServiceImpl implements SetmealService {
                 throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
             }
         }
-
         //判断当前菜品是否能够删除---是否被套餐关联了？？
         List<Long> setmealIds = setmealDishMapper.getSetmealIdsByDishIds(ids);
         if (setmealIds != null && setmealIds.size() > 0) {
             //当前菜品被套餐关联了，不能删除
             throw new DeletionNotAllowedException(MessageConstant.DISH_BE_RELATED_BY_SETMEAL);
         }
-
         //删除菜品表中的菜品数据
         for (Long id : ids) {
             dishMapper.deleteById(id);
@@ -94,16 +92,51 @@ public class SetmealServiceImpl implements SetmealService {
 
     }
 
-/*    *//**
+    /**
      * 根据id查询套餐和套餐菜品关系
      *
      * @param id
      * @return
      */
+    //根据id查询套餐
     public SetmealVO getByIdWithDish(Long id) {
-        SetmealVO setmealVO = setmealMapper.getByIdWithDish(id);
+        Setmeal setmeal = setmealMapper.getById(id);
+        List<SetmealDish> setmealDishes = setmealDishMapper.getBySetmealId(id);
+
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal, setmealVO);
+        setmealVO.setSetmealDishes(setmealDishes);
+
         return setmealVO;
     }
+
+    /**
+     * 修改套餐
+     *
+     * @param setmealDTO
+     */
+    @Transactional
+    public void update(SetmealDTO setmealDTO) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+
+        //1、修改套餐表，执行update
+        setmealMapper.update(setmeal);
+
+        //套餐id
+        Long setmealId = setmealDTO.getId();
+
+        //2、删除套餐和菜品的关联关系，操作setmeal_dish表，执行delete
+        setmealDishMapper.deleteBySetmealId(setmealId);
+
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        setmealDishes.forEach(setmealDish -> {
+            setmealDish.setSetmealId(setmealId);
+        });
+        //3、重新插入套餐和菜品的关联关系，操作setmeal_dish表，执行insert
+        setmealDishMapper.insertBatch(setmealDishes);
+    }
+
 
     //套餐分页查询
     public PageResult page(SetmealPageQueryDTO queryDTO){

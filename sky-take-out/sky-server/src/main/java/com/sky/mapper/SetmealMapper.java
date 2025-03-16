@@ -32,4 +32,6 @@ public interface SetmealMapper {
     //批量删除套餐
     @Delete("delete from setmeal where id = #{id}")
     void deleteByIds(Long setmealId);
+
+    void update(Setmeal setmeal);
 }
