@@ -115,6 +115,7 @@ public class SetmealServiceImpl implements SetmealService {
      *
      * @param setmealDTO
      */
+    //更新套餐
     @Transactional
     public void update(SetmealDTO setmealDTO) {
         Setmeal setmeal = new Setmeal();
@@ -169,6 +170,5 @@ public class SetmealServiceImpl implements SetmealService {
         Setmeal setmeal = setmealMapper.getById(id);
         setmeal.setStatus(status);
         setmealMapper.update(setmeal);
-
     }
 }
