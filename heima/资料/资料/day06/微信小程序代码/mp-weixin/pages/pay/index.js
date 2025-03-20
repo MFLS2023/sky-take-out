@@ -242,7 +242,7 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
             })
 
 
-            //uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
+            uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
 
           } else {
             wx.showModal({

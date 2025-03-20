@@ -1,7 +1,10 @@
 package com.sky.controller.user;
 
+import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersPaymentDTO;
 import com.sky.dto.OrdersSubmitDTO;
+import com.sky.entity.OrderDetail;
+import com.sky.entity.Orders;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
@@ -13,6 +16,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("userOrderController")
 @RequestMapping("/user/order")
@@ -51,14 +56,15 @@ public class OrderController {
         return Result.success(orderPaymentVO);
     }
 
-/*    *//**
+
+    /**
      * 历史订单查询
      *
      * @param page
      * @param pageSize
      * @param status   订单状态 1待付款 2待接单 3已接单 4派送中 5已完成 6已取消
      * @return
-     *//*
+     */
     @GetMapping("/historyOrders")
     @ApiOperation("历史订单查询")
     public Result<PageResult> page(int page, int pageSize, Integer status) {
@@ -66,12 +72,12 @@ public class OrderController {
         return Result.success(pageResult);
     }
 
-    *//**
+    /**
      * 查询订单详情
      *
      * @param id
      * @return
-     *//*
+     */
     @GetMapping("/orderDetail/{id}")
     @ApiOperation("查询订单详情")
     public Result<OrderVO> details(@PathVariable("id") Long id) {
@@ -79,11 +85,11 @@ public class OrderController {
         return Result.success(orderVO);
     }
 
-    *//**
+    /**
      * 用户取消订单
      *
      * @return
-     *//*
+     */
     @PutMapping("/cancel/{id}")
     @ApiOperation("取消订单")
     public Result cancel(@PathVariable("id") Long id) throws Exception {
@@ -91,12 +97,12 @@ public class OrderController {
         return Result.success();
     }
 
-    *//**
+    /**
      * 再来一单
      *
      * @param id
      * @return
-     *//*
+     */
     @PostMapping("/repetition/{id}")
     @ApiOperation("再来一单")
     public Result repetition(@PathVariable Long id) {
@@ -104,15 +110,15 @@ public class OrderController {
         return Result.success();
     }
 
-    *//**
+    /**
      * 客户催单
      * @param id
      * @return
-     *//*
+     */
     @GetMapping("/reminder/{id}")
     @ApiOperation("客户催单")
     public Result reminder(@PathVariable("id") Long id){
         orderService.reminder(id);
         return Result.success();
-    }*/
+    }
 }
