@@ -21,7 +21,7 @@ import com.sky.vo.OrderPaymentVO;
 import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderSubmitVO;
 import com.sky.vo.OrderVO;
-//import com.sky.websocket.WebSocketServer;
+import com.sky.websocket.WebSocketServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +54,11 @@ public class OrderServiceImpl implements OrderService {
     private UserMapper userMapper;
     @Autowired
     private WeChatPayUtil weChatPayUtil;
+    @Autowired
+    private WebSocketServer webSocketServer;
+
+
+
 //    @Autowired
 //    private WebSocketServer webSocketServer;
 
@@ -267,14 +272,14 @@ public class OrderServiceImpl implements OrderService {
         orders.setStatus(Orders.TO_BE_CONFIRMED);
         orders.setPayStatus(Orders.PAID);
         orders.setCheckoutTime(LocalDateTime.now());
-//        Orders orders = Orders.builder()
-//                .id(ordersDB.getId())
-//                .status(Orders.TO_BE_CONFIRMED) // 订单状态，待接单
-//                .payStatus(Orders.PAID) // 支付状态，已支付
-//                .checkoutTime(LocalDateTime.now()) // 更新支付时间
-//                .build();
+/*        Orders orders = Orders.builder()
+                .id(ordersDB.getId())
+                .status(Orders.TO_BE_CONFIRMED) // 订单状态，待接单
+                .payStatus(Orders.PAID) // 支付状态，已支付
+                .checkoutTime(LocalDateTime.now()) // 更新支付时间
+                .build();*/
 
-        orderMapper.update(orders);
+
 
         return vo;
     }
@@ -282,18 +287,11 @@ public class OrderServiceImpl implements OrderService {
 
 
 /*
-    @Override
-    public void paySuccess(String outTradeNo) {
-
-    }
-*/
-
-    /**
      * 支付成功，修改订单状态
      *
      * @param outTradeNo
      */
-    /*public void paySuccess(String outTradeNo) {
+    public void paySuccess(String outTradeNo) {
         // 当前登录用户id
         Long userId = BaseContext.getCurrentId();
 
@@ -319,7 +317,6 @@ public class OrderServiceImpl implements OrderService {
         String json = JSON.toJSONString(map);
         webSocketServer.sendToAllClient(json);
     }
-*/
 
 
 
@@ -672,7 +669,7 @@ public class OrderServiceImpl implements OrderService {
      * 客户催单
      * @param id
      */
-/*    public void reminder(Long id) {
+    public void reminder(Long id) {
         // 根据id查询订单
         Orders ordersDB = orderMapper.getById(id);
 
@@ -688,5 +685,5 @@ public class OrderServiceImpl implements OrderService {
 
         //通过websocket向客户端浏览器推送消息
         webSocketServer.sendToAllClient(JSON.toJSONString(map));
-    }*/
+    }
 }
