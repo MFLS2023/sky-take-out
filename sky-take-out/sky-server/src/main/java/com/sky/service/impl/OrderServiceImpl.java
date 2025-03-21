@@ -461,30 +461,43 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
+        // 设置分页参数
         PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
 
+        // 执行分页查询 —— 查询订单基本信息
         Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
 
-        // 部分订单状态，需要额外返回订单菜品信息，将Orders转化为OrderVO
+        // 转换为前端需要的格式 —— 转换为OrderVO列表
         List<OrderVO> orderVOList = getOrderVOList(page);
 
+        // 返回分页结果
         return new PageResult(page.getTotal(), orderVOList);
     }
 
     private List<OrderVO> getOrderVOList(Page<Orders> page) {
-        // 需要返回订单菜品信息，自定义OrderVO响应结果
+        // 创建结果列表
         List<OrderVO> orderVOList = new ArrayList<>();
 
+        // 获取订单列表
         List<Orders> ordersList = page.getResult();
+
+        // 判断列表是否为空
         if (!CollectionUtils.isEmpty(ordersList)) {
+            // 遍历订单列表
             for (Orders orders : ordersList) {
-                // 将共同字段复制到OrderVO
+                // 创建OrderVO对象
                 OrderVO orderVO = new OrderVO();
+
+                // 复制基本属性
                 BeanUtils.copyProperties(orders, orderVO);
+
+                // 获取菜品信息字符串
                 String orderDishes = getOrderDishesStr(orders);
 
-                // 将订单菜品信息封装到orderVO中，并添加到orderVOList
+                // 设置菜品信息
                 orderVO.setOrderDishes(orderDishes);
+
+                // 添加到结果列表
                 orderVOList.add(orderVO);
             }
         }
@@ -498,7 +511,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     private String getOrderDishesStr(Orders orders) {
-        // 查询订单菜品详情信息（订单中的菜品和数量）
+        // 查询订单包含的菜品 —— 查询订单菜品详情信息（订单中的菜品和数量）
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
 
         // 将每一条订单菜品信息拼接为字符串（格式：宫保鸡丁*3；）
