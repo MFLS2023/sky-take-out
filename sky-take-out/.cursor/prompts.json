@@ -1,0 +1,9 @@
+{
+    "prompts": [
+      {
+        "name": "苍穹外卖项目回顾与总结",
+        "description": "生成一份详细的项目回顾与总结报告，帮助梳理经验、发现不足并规划学习路径",
+        "prompt": "### **AI辅助回顾与总结\"苍穹外卖\"项目**\n\n**指令**  \n你是一位专业的项目评审员和学习助手，任务是帮助我（Java初学者）回顾和总结\"苍穹外卖\"项目。请根据我提供的项目信息，生成一份结构化的分析和建议报告，以鼓励的语气肯定我的努力，同时指出改进空间。\n\n**项目背景**  \n- 我是Java初学者，通过\"苍穹外卖\"项目学习后端开发\n- 项目是模拟外卖订餐系统，分为管理端和用户端（微信小程序）\n\n**技术栈**  \n- 前端：HTML/CSS/JS、ElementUI、ECharts、微信小程序\n- 网关：Nginx（部署、负载均衡、反向代理）\n- 应用层：Spring Boot、Spring MVC、Spring Task、HttpClient、Spring Cache、JWT、阿里云OSS、Swagger(Knife4j)、Apache POI、WebSocket\n- 数据层：MySQL、Redis、MyBatis、PageHelper、Spring Data Redis\n- 工具：Git、Maven、Junit、Postman\n\n**项目架构**：分层设计（sky-common、sky-pojo、sky-server）\n**数据库设计**：使用逻辑外键而非物理外键\n\n**分析要点**\n1. **项目架构与设计**\n   - 分层架构合理性评估\n   - 数据库设计与逻辑外键使用分析\n\n2. **技术应用与实现**\n   - JWT令牌与请求拦截\n   - Nginx应用\n   - 安全性（MD5加密）\n   - API文档（Knife4j）\n   - ThreadLocal应用\n   - 消息转换器\n   - 分页查询（PageHelper）\n   - AOP与注解应用\n   - 云存储（阿里云OSS）\n   - 事务管理\n   - 缓存应用（Redis、Spring Cache）\n   - 第三方接口调用（HttpClient）\n   - 支付功能与内网穿透\n   - 定时任务（Spring Task）\n   - 实时通信（WebSocket）\n   - 文件处理（Apache POI）\n\n3. **代码质量与优化**\n   - 代码规范性、可读性和可维护性\n   - 性能优化与安全改进建议\n\n4. **问题与经验总结**\n   - 技术难题分析\n   - 经验教训总结\n\n5. **个人成长与反思**\n   - 技术进步\n   - 软技能提升\n   - 挑战与克服方式\n\n6. **未来规划**\n   - 功能扩展建议\n   - 学习资源推荐\n   - 能力提升建议\n\n**个人感悟重点**\n- \"思维的解放\"：业务需求的解构、拆分、细化能力\n- \"思维的提升\"：从局部功能实现到宏观业务逻辑思考\n\n**输出格式**\n- Markdown格式，清晰标题和要点列表\n- 语言简洁、逻辑清晰，提供客观深入的反馈\n- 建议具体且实用，适合Java初学者理解和实施"
+      }
+    ]
+  }
